@@ -1,5 +1,5 @@
 # Sportify-front
-En este repositorio se encuentra el repositorio con el codigo correspondiente al frontend de la aplicación Spotify.
+This repository contains the code corresponding to the frontend of the Spotify application.
 
 ## Content
 1. [General information](#general-info)
