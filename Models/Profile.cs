@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Globalization;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Sportify_Back.Models;
 
 namespace Sportify_back.Models
 {
@@ -20,7 +21,7 @@ namespace Sportify_back.Models
         public string UserTypeName { get; set; }
 
         [Required]
-        public List<Users> Users { get; set; }
+        public List<ApplicationUser> Users { get; set; }
 
         [Required]
         public List<Licenses> Licenses { get; set; }
