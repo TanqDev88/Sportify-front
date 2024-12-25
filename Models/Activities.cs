@@ -17,9 +17,11 @@ namespace Sportify_back.Models
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "Actividad")]
         public string NameActivity { get; set; }
 
         [Required]
+        [Display(Name = "Descripcion")]
         public string Description { get; set; }
 
         public List<Plans> Plans { get; set; } = new List<Plans>();
@@ -28,7 +30,7 @@ namespace Sportify_back.Models
 
         public List<Classes> Classes { get; set; } = new List<Classes>();
 
-
+        [Display(Name = "Activo")]
         public bool Active { get; set; }
     }
 }
