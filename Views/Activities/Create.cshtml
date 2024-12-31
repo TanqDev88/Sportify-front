@@ -1,0 +1,45 @@
+@model Sportify_back.Models.Activities
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1 class="text-center mb-4">Crear Actividad</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+            <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3">
+                <label asp-for="NameActivity" class="form-label fw-bold text-white">Nombre</label>
+                <input asp-for="NameActivity" class="form-control rounded-pill" />
+                <span asp-validation-for="NameActivity" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label fw-bold text-white">Descripción</label>
+                <input asp-for="Description" class="form-control rounded-pill" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-check mb-3">
+                        <input class="form-check-input" asp-for="Active" />
+                        <label class="form-check-label fw-bold text-white" for="activeCheck">
+                            @Html.DisplayNameFor(model => model.Active)
+                        </label>
+                    </div>
+            <div class="d-grid">
+                        <input type="submit" value="Crear" class="btn btn-primary rounded-pill" />
+                    </div>
+        </form>
+    </div>
+</div>
+
+<div class="text-center mt-3">
+    <a asp-action="Index" class="text-decoration-none text-white">Volver al listado</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
