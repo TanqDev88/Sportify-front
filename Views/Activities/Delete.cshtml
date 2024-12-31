@@ -1,0 +1,32 @@
+@model Sportify_back.Models.Activities
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Borrar Actividad</h1>
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card bg-dark text-white" style="max-width: 600px; width: 100%;">
+        <div class="card-body">
+            <h3 class="text-center">¿Estás seguro que querés borrar la actividad <strong>@Html.DisplayFor(model => model.NameActivity)</strong>?</h3>
+            <div class="mt-4">
+                <h4>Detalles de la Actividad</h4>
+                <hr />
+                <dl class="row">
+                    <dt class="col-sm-4">Nombre</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.NameActivity)</dd>
+                    <dt class = "col-sm-4">Descripción</dt>
+                    <dd class = "col-sm-8">@Html.DisplayFor(model => model.Description)</dd>
+                    <dt class = "col-sm-4">Activo</dt>
+                    <dd class = "col-sm-8">@Html.DisplayFor(model => model.Active)</dd>
+                </dl>
+                
+                <form asp-action="Delete" class="text-center mt-4">
+                <input type="hidden" asp-for="Id" />
+                <button type="submit" class="btn btn-danger btn-bold w-25">Borrar</button>
+                <a asp-action="Index" class="btn btn-outline-light btn-bold rounded-pill">Volver al listado</a>
+            </form>
+        </div>
+    </div>
+</div>
