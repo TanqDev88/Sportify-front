@@ -1,0 +1,71 @@
+@model IEnumerable<Sportify_back.Models.Classes>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Listado de Clases</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-outline-light">Crear nueva clase</a>
+</p>
+<table class="table-custom">
+    <thead>
+        <tr>
+            <th>
+               Clase
+            </th>
+            <th>
+                Actividades
+            </th>
+            <th>
+                Día y horario
+            </th>
+            <th>
+               Profesor
+            </th>
+            <th>
+               Cupo
+            </th>
+            <th>
+               Activa
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Activities.NameActivity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sched)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teachers.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quota)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id" class="action-link details-link">
+                    <img src="/images/search.png"  class="small-icon" alt="Icono de detalle"> Detalle
+                </a>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="action-link edit-link">
+                    <img src="/images/edit.png" class="small-icon" alt="Icono de editar"> Editar
+                </a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="action-link delete-link">
+                    <img src="/images/bin.png" class="small-icon" alt="Icono de eliminar"> Eliminar
+                </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
