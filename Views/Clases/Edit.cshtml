@@ -1,0 +1,66 @@
+@model Sportify_back.Models.Classes
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Editar Clase</h1>
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 60vh;">
+    <div class="card text-white" style="max-width: 400px; width: 100%;">
+        <div class="card-body">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                
+                <div class="form-group">
+                    <label asp-for="Name" class="form-label text-white"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ActivityId" class="form-label text-white"></label>
+                    <select asp-for="ActivityId" class="form-control" asp-items="ViewBag.ActivityId"></select>
+                    <span asp-validation-for="ActivityId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Sched" class="form-label text-white"></label>
+                    <input asp-for="Sched" class="form-control" />
+                    <span asp-validation-for="Sched" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="TeachersId" class="form-label text-white"></label>
+                    <select asp-for="TeachersId" class="form-control" asp-items="ViewBag.TeachersId"></select>
+                    <span asp-validation-for="TeachersId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Quota" class="form-label text-white"></label>
+                    <input asp-for="Quota" class="form-control" />
+                    <span asp-validation-for="Quota" class="text-danger"></span>
+                </div>
+
+                <div class="form-group form-check">
+                    <label class="form-check-label text-white">
+                        <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary rounded-pill me-2">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="mt-3 text-center">
+    <a asp-action="Index" class="btn btn-outline-light btn-bold rounded-pill">Volver a la lista</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
