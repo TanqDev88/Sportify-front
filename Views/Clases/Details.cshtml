@@ -1,0 +1,63 @@
+@model Sportify_back.Models.Classes
+
+@{
+    ViewData["Title"] = "Detalles";
+}
+
+<h1 class="text-center mb-4">Detalles de la Clase</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4 card-text">
+                        <i class="fas fa-book"></i> Nombre
+                    </dt>
+                    <dd class="col-sm-8 card-text">
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+                    <dt class="col-sm-4 card-text">
+                        <i class="fas fa-list"></i> Actividad
+                    </dt>
+                    <dd class="col-sm-8 card-text">
+                        @Html.DisplayFor(model => model.Activities.NameActivity)
+                    </dd>
+                    <dt class="col-sm-4 card-text">
+                        <i class="fas fa-calendar-alt"></i> Fecha y Hora
+                    </dt>
+                    <dd class="col-sm-8 card-text">
+                        @Html.DisplayFor(model => model.Sched)
+                    </dd>
+                    <dt class="col-sm-4 card-text">
+                        <i class="fas fa-chalkboard-teacher"></i> Profesor
+                    </dt>
+                    <dd class="col-sm-8 card-text">
+                        @Html.DisplayFor(model => model.Teachers.Name)
+                    </dd>
+                    <dt class="col-sm-4 card-text">
+                        <i class="fas fa-users"></i> Cupo
+                    </dt>
+                    <dd class="col-sm-8 card-text">
+                        @Html.DisplayFor(model => model.Quota)
+                    </dd>
+                    <dt class="col-sm-4 card-text">
+                        <i class="fas fa-toggle-on"></i> Activa
+                    </dt>
+                    <dd class="col-sm-8 card-text">
+                        @Html.DisplayFor(model => model.Active)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-4">
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary rounded-pill me-2">
+        Editar
+    </a>
+    <a asp-action="Index" class="btn btn-outline-light btn-bold rounded-pill">
+    Volver al listado
+    </a>
+</div>

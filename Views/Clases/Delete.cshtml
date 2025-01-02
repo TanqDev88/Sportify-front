@@ -1,0 +1,44 @@
+@model Sportify_back.Models.Classes
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Borrar Clase</h1>
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card bg-dark text-white" style="max-width: 600px; width: 100%;">
+        <div class="card-body">
+            <h3 class="text-center">¿Estás seguro que querés borrar la clase de <strong>@Html.DisplayFor(model => model.Name)</strong>?</h3>
+            <div class="mt-4">
+                <h4>Detalles de la Clase</h4>
+                <hr />
+                <dl class="row">
+                    <dt class="col-sm-4">Nombre</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Name)</dd>
+
+                    <dt class="col-sm-4">Actividad</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Activities.NameActivity)</dd>
+
+                    <dt class="col-sm-4">Horario</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Sched)</dd>
+
+                    <dt class="col-sm-4">Profesor</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Teachers.Name)</dd>
+
+                    <dt class="col-sm-4">Cupo</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quota)</dd>
+
+                    <dt class="col-sm-4">Activo</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Active)</dd>
+                </dl>
+            </div>
+
+            <form asp-action="Delete" class="text-center mt-4">
+                <input type="hidden" asp-for="Id" />
+                <button type="submit" class="btn btn-danger btn-bold w-25">Borrar</button>
+                <a asp-action="Index" class="btn btn-outline-light btn-bold rounded-pill">Volver al listado</a>
+            </form>
+        </div>
+    </div>
+</div>
