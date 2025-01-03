@@ -1,0 +1,33 @@
+@model List<Sportify_back.Models.Plans>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container text-center">
+    <h1 class="mb-4">Selecciona tu Plan</h1>
+    <div class="d-flex flex-wrap justify-content-center">
+        @foreach (var plan in Model)
+        {
+            <div class="card m-3" style="width: 18rem; min-height: 22rem;">
+                <img class="card-img-top" src="images/@plan.Name.ToLower()_icon.png" alt="@plan.Name" style="height: 150px; object-fit: contain;">
+                <div class="card-body d-flex flex-column">
+                    <h2 class="card-title">@plan.Name</h2>
+                    <p class="card-text">
+                        <i class="fas fa-info-circle"></i> @plan.Description
+                    </p>
+                    <div class="cupo-text mb-3">
+                        <i class="fas fa-check-circle"></i> Estado: @(plan.Active ? "Activo" : "Inactivo")
+                    </div>
+                    @if (plan.Active)
+                    {
+                        <form asp-controller="Plans" asp-action="SelectPlan" method="post">
+                            <input type="hidden" name="planId" value="@plan.Id" />
+                            <button type="submit" class="btn btn-primary rounded-pill w-100">Seleccionar</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
