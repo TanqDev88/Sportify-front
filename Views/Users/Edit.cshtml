@@ -1,0 +1,76 @@
+@using System.Security.Claims
+@model Sportify_Back.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Editar Usuario";
+}
+
+<h1>Editar Usuario</h1>
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 60vh;">
+    <div class="card text-white" style="max-width: 400px; width: 100%;">
+        <div class="card-body">
+            <form asp-action="Edit" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <input type="hidden" asp-for="Id" />
+
+                <div class="form-group">
+                    <label asp-for="Name" class="form-label text-white"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="LastName" class="form-label text-white"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DNI" class="form-label text-white"></label>
+                    <input asp-for="DNI" class="form-control" />
+                    <span asp-validation-for="DNI" class="text-danger"></span>
+                </div>
+
+                <!-- Mostrar el campo de cargar documento solo si no existe un documento previo -->
+                @if (string.IsNullOrEmpty(Model.DocumentName))
+                {
+                    <div class="form-group">
+                        <label for="Document" class="form-label text-white">Documento Médico</label>
+                        <input type="file" asp-for="Document" class="form-control" accept=".pdf, .jpeg, .jpg, .png" />
+                        <span asp-validation-for="Document" class="text-danger"></span>
+                    </div>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.DocumentName))
+                {
+                    <div class="form-group">
+                        <label class="form-label text-white" style="display: inline;">Documento Actual:</label>
+                        <span style="display: inline; font-weight: bold;">@Model.DocumentName</span>
+                    </div>
+                }
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary rounded-pill me-2">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Botón de redirección condicional según el rol del usuario -->
+<div class="mt-3 text-center">
+    @if (User.FindFirstValue("Profile") == "Administrador")
+    {
+        <a asp-action="Index" asp-controller="Users" class="btn btn-outline-light btn-bold rounded-pill">Volver al listado</a>
+    }
+    else
+    {
+        <a asp-action="Index" asp-controller="Home" class="btn btn-outline-light btn-bold rounded-pill">Volver a inicio</a>
+    }
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

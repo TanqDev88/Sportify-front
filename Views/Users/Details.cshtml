@@ -1,0 +1,71 @@
+@using System.Security.Claims
+@model Sportify_Back.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Detalles del Usuario";
+}
+
+<h1 class="text-center mb-4">Detalles del Usuario</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4 card-text">
+                        Nombre
+                    </dt>
+                    <dd class="col-sm-8 card-text">
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+                    <dt class="col-sm-4 card-text">
+                        Apellido
+                    </dt>
+                    <dd class="col-sm-8 card-text">
+                        @Html.DisplayFor(model => model.LastName)
+                    </dd>
+                    <dt class="col-sm-4 card-text">
+                        Correo Electrónico
+                    </dt>
+                    <dd class="col-sm-8 card-text">
+                        @Html.DisplayFor(model => model.Email)
+                    </dd>
+                    <dt class="col-sm-4 card-text">
+                        DNI
+                    </dt>
+                    <dd class="col-sm-8 card-text">
+                        @Html.DisplayFor(model => model.DNI)
+                    </dd>
+                    <dt class="col-sm-4 card-text">
+                        Documento Médico
+                    </dt>
+                    <dd class="col-sm-8 card-text">
+                        @if (Model.DocumentContent != null && Model.DocumentContent.Length > 0)
+                        {
+                            <a href="data:application/octet-stream;base64,@Convert.ToBase64String(Model.DocumentContent)" download="@Model.DocumentName">Descargar Documento</a>
+                        }
+                        else
+                        {
+                            <span>Sin Subir</span>
+                        }
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-4">
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary rounded-pill me-2">
+        Editar
+    </a>
+    @if (User.FindFirstValue("Profile") == "Administrador")
+    {
+        <a asp-action="Index" asp-controller="Users" class="btn btn-outline-light btn-bold rounded-pill">Volver al listado</a>
+    }
+    else
+    {
+        <a asp-action="Index" asp-controller="Home" class="btn btn-outline-light btn-bold rounded-pill">Volver a inicio</a>
+    }
+</div>
+
