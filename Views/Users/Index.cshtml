@@ -1,0 +1,49 @@
+@model IEnumerable<Sportify_Back.Models.ApplicationUser>
+
+@{
+    ViewData["Title"] = "Lista de Usuarios";
+}
+
+<h1>Lista de Usuarios</h1>
+
+<table class="table-custom">
+    <thead>
+        <tr>
+            <th>Nombre y Apellido</th>
+            <th>Correo Electrónico</th>
+            <th>DNI</th>
+            <th>Documento Médico</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr id="user-@user.Email">
+                <td>@Html.DisplayFor(modelItem => user.Name) @Html.DisplayFor(modelItem => user.LastName)</td>
+                <td>@Html.DisplayFor(modelItem => user.Email)</td>
+                <td>@Html.DisplayFor(modelItem => user.DNI)</td>
+                <td>
+                    @if (user.DocumentContent != null && user.DocumentContent.Length > 0)
+                    {
+                        <a href="data:application/octet-stream;base64,@Convert.ToBase64String(user.DocumentContent)" download="@user.DocumentName">Descargar Documento</a>
+                    }
+                    else
+                    {
+                        <span>Sin Subir</span>
+                    }
+                </td>
+                <td>
+                    <div class="action-buttons">
+                        <a asp-action="Details" asp-route-id="@user.Id" class="action-link details-link">
+                            <img src="~/images/search.png" class="small-icon" alt="Icono de detalle">
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@user.Id" class="action-link edit-link">
+                            <img src="~/images/edit.png" class="small-icon" alt="Icono de editar">
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
