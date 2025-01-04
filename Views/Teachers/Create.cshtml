@@ -1,0 +1,66 @@
+@model Sportify_back.Models.Teachers
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1 class="text-center mb-4">Crear Profesores</h1>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label fw-bold text-white"></label>
+                <input asp-for="Name" class="form-control rounded-pill" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Dni" class="form-label fw-bold text-white"></label>
+                <input asp-for="Dni" id="dni"  minlength="7" maxlength="8"  class="form-control rounded-pill" />
+                <span asp-validation-for="Dni" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Mail" class="form-label fw-bold text-white"></label>
+                <input asp-for="Mail" type="email" id="email"
+                 class="form-control rounded-pill" />
+                <span asp-validation-for="Mail" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Phone" class="form-label fw-bold text-white"></label>
+                <input asp-for="Phone" class="form-control rounded-pill" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Address" class="form-label fw-bold text-white"></label>
+                <input asp-for="Address" class="form-control rounded-pill" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="ActivitiesId" class="form-label fw-bold text-white"></label>
+                <select asp-for="ActivitiesId" class ="form-select rounded-pill" asp-items="ViewBag.ActivitiesId"></select>
+            </div>
+            <div class="form-check mb-3">
+                <label class="form-check-label fw-bold text-white">
+                    <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
+                </label>
+            </div>
+            <div class="d-grid">
+                        <input type="submit" value="Crear" class="btn btn-primary rounded-pill" />
+                    </div>
+        </form>
+    </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-3">
+    <a asp-action="Index" class="text-decoration-none text-white">Volver al listado</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+     
+}
+  
