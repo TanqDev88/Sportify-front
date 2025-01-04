@@ -1,0 +1,68 @@
+@model Sportify_back.Models.Teachers
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Borrar Profesor</h1>
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card bg-dark text-white" style="max-width: 600px; width: 100%;">
+        <div class="card-body">
+            <h3 class="text-center">¿Estás seguro que querés borrar al profesor <strong>@Html.DisplayFor(model => model.Name)</strong>?</h3>
+            <div class="mt-4">
+                <h4>Detalles del Profesor</h4>
+                <hr />
+    <dl class="row">
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Dni)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Dni)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Mail)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Mail)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Activities)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Activities.NameActivity)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete" class="text-center mt-4">
+                <input type="hidden" asp-for="Id" />
+                <button type="submit" class="btn btn-danger btn-bold w-25">Borrar</button>
+                <a asp-action="Index" class="btn btn-outline-light btn-bold rounded-pill">Volver al listado</a>
+            </form>
+        </div>
+    </div>
+</div>
