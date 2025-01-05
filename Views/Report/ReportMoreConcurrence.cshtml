@@ -1,0 +1,48 @@
+@model IEnumerable<Sportify_Back.Models.ClassConcurrenceReport>
+
+<head>
+    <link rel="stylesheet" href="/css/Styles.css">
+</head>
+
+<div class="container">
+    <h1 class="text-center mb-4">Clases con Mayor Concurrencia</h1>
+
+    <div class="card shadow-sm border-0 p-4">
+        <h3 class="text-center mb-3">Detalles del Reporte</h3>
+
+        <table class="table-custom">
+            <thead>
+                <tr>
+                    <th>Clase</th>
+                    <th>Actividad</th>
+                    <th>Profesor</th>
+                    <th>Cantidad de Usuarios</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var report in Model)
+                    {
+                        <tr>
+                            <td>@report.ClassName</td>
+                            <td>@report.ActivityName</td>
+                            <td>@report.ProfesorName</td>
+                            <td>@report.UserCount</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="2" class="text-center">No hay datos disponibles para este reporte.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="@Url.Action("Index", "Report")" class="btn btn-outline-light btn-bold rounded-pill">Volver al Inicio</a>
+    </div>
+</div>

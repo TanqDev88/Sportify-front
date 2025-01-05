@@ -1,0 +1,26 @@
+@model Sportify_Back.Models.ReportDataModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+    <h1 class="text-center mb-4">Generar Reporte Mensual</h1>
+
+    <div class="card shadow-sm border-0 p-4">
+        <h3 class="text-center mb-3">Opciones de Reporte</h3>
+
+        <div class="d-flex justify-content-around">
+            <button 
+                onclick="location.href='@Url.Action("ClassesReport", "Report")'" 
+                class="btn btn-outline-light btn-bold rounded-pill">
+                Reporte de Clases
+            </button>
+            <button 
+                onclick="location.href='@Url.Action("GetTopClasses", "Report")'" 
+                class="btn btn-outline-light btn-bold rounded-pill">
+                Clases con más concurrencia mensual
+            </button>
+        </div>
+    </div>
+</div>
