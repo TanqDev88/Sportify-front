@@ -1,0 +1,58 @@
+@model Sportify_back.Models.Payments
+
+@{
+    ViewData["Title"] = "Detalles del Pago";
+}
+
+<h1 class="text-center mb-4">Detalles del Pago</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                    <dl class="row">
+                    <dt class="col-sm-4 card-text">
+                        @Html.DisplayNameFor(model => model.ApplicationUser.Name)
+                    </dt>
+                    <dd class="col-sm-8 card-text">
+                        @Html.DisplayFor(model => model.ApplicationUser.Name)
+                    </dd>
+                    <dt class="col-sm-4 card-text">
+                        @Html.DisplayNameFor(model => model.Plans.Name)
+                    </dt>
+                    <dd class="col-sm-8 card-text">
+                        @Html.DisplayFor(model => model.Plans.Name)
+                    </dd>
+                    <dt class="col-sm-4 card-text">
+                        @Html.DisplayNameFor(model => model.Plans.Monto)
+                    </dt>
+                    <dd class="col-sm-8 card-text">
+                        @Html.DisplayFor(model => model.Plans.Monto)
+                    </dd>
+                    <dt class="col-sm-4 card-text">
+                        @Html.DisplayNameFor(model => model.PaymentMethod.Tipo)
+                    </dt>
+                    <dd class="col-sm-8 card-text">
+                        @Html.DisplayFor(model => model.PaymentMethod.Tipo)
+                    </dd>
+                    <dt class="col-sm-4 card-text">
+                        @Html.DisplayNameFor(model => model.Fecha)
+                    </dt>
+                    <dd class="col-sm-8 card-text">
+                        @Html.DisplayFor(model => model.Fecha)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-4">
+    <a asp-action="Index" class="btn btn-outline-light btn-bold rounded-pill">
+        Volver al listado
+    </a>
+
+    <a asp-action="DownloadReceipt" asp-route-id="@Model.Id" class="btn btn-primary rounded-pill me-2">
+        Descargar Comprobante
+    </a>
+</div>
