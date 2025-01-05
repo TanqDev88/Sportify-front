@@ -1,0 +1,50 @@
+@model IEnumerable<Sportify_Back.Models.MonthlyClassReport>
+
+<head>
+    <link rel="stylesheet" href="/css/Styles.css">
+</head>
+
+<div class="container">
+    <h1 class="text-center mb-4">Reporte Mensual de Clases</h1>
+
+    <div class="card shadow-sm border-0 p-4">
+        <h3 class="text-center mb-3">Detalles del Reporte</h3>
+
+        <table class="table-custom">
+            <thead>
+                <tr>
+                    <th>Mes</th>
+                    <th>Total de Clases</th>
+                    <th>Total de Cupos</th>
+                    <th>Promedio de Cupos</th>
+                    <th>Profesor con Más Clases</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var report in Model)
+                    {
+                        <tr>
+                            <td>@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(report.Month)</td>
+                            <td>@report.TotalClasses</td>
+                            <td>@report.TotalQuota</td>
+                            <td>@report.AverageQuota.ToString("F2")</td>
+                            <td>@report.TopTeacherName</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center">No hay datos disponibles para este reporte.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="@Url.Action("Index", "Report")" class="btn btn-outline-light btn-bold rounded-pill">Volver al Inicio</a>
+    </div>
+</div>
