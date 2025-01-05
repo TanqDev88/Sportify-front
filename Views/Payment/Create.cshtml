@@ -1,0 +1,101 @@
+@model Sportify_back.Models.Payments
+
+@{
+    ViewData["Title"] = "Efectuar Pago";
+}
+
+<h1 class="text-center mb-4">Pagar cuota</h1>
+<hr />
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <!-- Seleccionar Usuario -->
+                    <div class="mb-3">
+                        <label asp-for="UsersId" class="form-label fw-bold text-white">Seleccionar Usuario</label>
+                        <select asp-for="UsersId" class="form-select rounded-pill" asp-items="@(ViewData["UsersId"] as SelectList)">
+                            <!-- No es necesario tener la opción de "Seleccione un Usuario" ya que solo hay uno -->
+                        </select>
+                    </div>
+
+                    <!-- Elegir Plan -->
+                    <div class="mb-3">
+                        <label asp-for="PlansId" class="form-label fw-bold text-white">Elegir Plan</label>
+                        <select asp-for="PlansId" class="form-select rounded-pill" asp-items="ViewBag.PlansId" id="plansSelect">
+                            <option value="">Seleccione un Plan</option>
+                        </select>
+                    </div>
+
+                    <!-- Monto del Plan -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-white">Monto</label>
+                        <span id="planAmount" class="form-control rounded-pill bg-light text-muted">$0</span>
+                    </div>
+
+                    <!-- Seleccionar Método de Pago -->
+                    <div class="mb-3">
+                        <label asp-for="PaymentMethodId" class="form-label fw-bold text-white">Seleccionar Método de Pago</label>
+                        <select asp-for="PaymentMethodId" class="form-select rounded-pill" asp-items="ViewBag.PaymentMethodId">
+                            <option value="">Seleccione un Método de Pago</option>
+                        </select>
+                    </div>
+
+                    <!-- Ingresar Número de Tarjeta -->
+                    <div class="mb-3">
+                        <label asp-for="CardNumber" class="form-label fw-bold text-white">Ingrese número de Tarjeta</label>
+                        <input asp-for="CardNumber" type="text" class="form-control rounded-pill" maxlength="16" required/>
+                        <span asp-validation-for="CardNumber" class="text-danger"></span>
+                    </div>
+
+                    <!-- Ingresar Fecha de Expiración -->
+                    <div class="mb-3">
+                        <label asp-for="ExpirationDate" class="form-label fw-bold text-white">Ingrese fecha vencimiento de su Tarjeta</label>
+                        <input asp-for="ExpirationDate" type="month" class="form-control rounded-pill" id="Fecha" />
+                        <span asp-validation-for="ExpirationDate" class="text-danger"></span>
+                    </div>
+
+                    <!-- Ingresar Código de Seguridad -->
+                    <div class="mb-3">
+                        <label asp-for="SecurityCode" class="form-label fw-bold text-white">Ingrese código de seguridad</label>
+                        <input asp-for="SecurityCode" type="text" class="form-control rounded-pill" maxlength="3" required/>
+                        <span asp-validation-for="SecurityCode" class="text-danger"></span>
+                    </div>
+
+                    <!-- Botón Pagar -->
+                    <div class="d-grid">
+                        <input type="submit" value="Pagar" class="btn btn-primary rounded-pill" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-3">
+    <a asp-action="Index" class="btn btn-outline-light btn-bold rounded-pill">Volver al listado</a>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('plansSelect').addEventListener('change', function () {
+            var planId = this.value;
+
+            if (planId) {
+                fetch(`/Payment/GetPlanAmount?planId=${planId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.getElementById('planAmount').textContent = '$' + data.monto;
+                        } else {
+                            alert(data.message);
+                        }
+                    });
+            }
+        });
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
