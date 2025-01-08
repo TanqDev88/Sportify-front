@@ -1,0 +1,266 @@
+﻿﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@{
+     var isAuthenticated = User.Identity.IsAuthenticated;
+}
+
+<div id="carouselClasses" class="carousel slide my-4" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="~/images/images2.jpg" class="d-block w-100" alt="Clase 1">
+        </div>
+        <div class="carousel-item">
+            <img src="~/images/images8.jpg" class="d-block w-100" alt="Clase 2">
+        </div>
+        <div class="carousel-item">
+            <img src="~/images/images4.jpg" class="d-block w-100" alt="Clase 3">
+        </div>
+        <div class="carousel-item">
+            <img src="~/images/images5.jpg" class="d-block w-100" alt="Clase 4">
+        </div>
+        <div class="carousel-item">
+            <img src="~/images/images6.jpg" class="d-block w-100" alt="Clase 5">
+        </div>
+        <div class="carousel-item">
+            <img src="~/images/images7.jpg" class="d-block w-100" alt="Clase 7">
+        </div>
+        <div class="carousel-item">
+            <img src="~/images/images3.jpg" class="d-block w-100" alt="Clase 8">
+        </div>
+    </div>
+</div>
+
+<!-- TODO: Que el buscador funcione -->
+<div class="container my-4">
+    <div class="row">
+        <div class="col-md-6">
+        <div class="input-group">
+                <input type="text" class="form-control" placeholder="Buscar clase" />
+                <div class="input-group-append">
+                    <button class="btn btn-outline-light" type="submit" id="btnBuscar">Buscar</button>
+                    <button class="btn btn-outline-secondary" type="button" id="btnBorrarFiltros">Borrar filtros</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <input type="date" class="form-control" placeholder="Desde" />
+        </div>
+        <div class="col-md-3">
+            <input type="date" class="form-control" placeholder="Hasta" />
+        </div>
+    </div>
+</div>
+<!-- Cards-->
+<div class="container">
+    <div id="activityContainer" class="row">
+    </div>
+</div>
+<div class="card-Qr" id="prueba">
+        <div class="card-body">
+            <h5 class="card-title">Código de Acceso</h5>
+            <p class="card-text">Escanea el código QR para acceder a la clase.</p>
+            <div id="qrContainer"></div> 
+            <button class="btn btn-primary mt-3" onclick="ocultarQR()">Cerrar</button>
+        </div>
+</div>
+<div id="ocultar" style="display: none;">Contenido que se muestra/oculta con el QR</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function () {
+    // Cargar actividades iniciales
+    cargarActividades();
+
+    // Configurar el evento del botón de búsqueda
+    $("#btnBuscar").on("click", function () {
+        realizarBusqueda();
+    });
+
+    // Configurar el evento del botón de borrar filtros
+    $("#btnBorrarFiltros").on("click", function () {
+        $(".form-control[placeholder='Buscar Disciplina']").val("");
+        $(".form-control[placeholder='Desde']").val("");
+        $(".form-control[placeholder='Hasta']").val("");
+        cargarActividades(); // Cargar todas las actividades de nuevo
+    });
+
+    // Función para cargar actividades iniciales
+    function cargarActividades() {
+        $.ajax({
+            url: "/Home/GetActivities",
+            method: "GET",
+            success: function (data) {
+                renderActivities(data);
+            },
+            error: function (error) {
+                console.error("Error al obtener actividades:", error);
+            },
+        });
+    }
+
+    // Función para realizar la búsqueda de actividades
+    function realizarBusqueda() {
+        const searchQuery = $(".form-control[placeholder='Buscar clase']").val();
+        const fromDate = $(".form-control[placeholder='Desde']").val();
+        const toDate = $(".form-control[placeholder='Hasta']").val();
+
+        $.ajax({
+            url: "/Home/SearchClasses",
+            method: "GET",
+            data: { searchQuery, fromDate, toDate },
+            success: function (data) {
+                renderActivities(data);
+            },
+            error: function (error) {
+                console.error("Error al buscar actividades:", error);
+            },
+        });
+    }
+
+    // Renderizar actividades en el contenedor
+    function renderActivities(activities) {
+        const container = $("#activityContainer");
+        container.empty(); // Limpiar antes de agregar actividades
+
+        if (activities.length === 0) {
+            container.append(`<p class="text-center mt-3 text-white">No se encontraron actividades.</p>`);
+            return;
+        }
+
+        activities.forEach((activity) => {
+            const card = `
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-lg h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">${activity.title}</h5>
+                            <p class="card-text"><img class="small-icon" src="/images/calendar.png" alt="Icono de Fecha"> Fecha: ${activity.date}</p>
+                            <p class="card-text"><img class="small-icon" src="/images/24.png"> Día: ${activity.day}</p>
+                            <p class="card-text"><img class="small-icon" src="/images/clock.png"> Hora: ${activity.time}</p>
+                            <p class="card-text"><img class="small-icon" src="/images/teacher.png"> Profesor: ${activity.teacher}</p>
+                            <p class="card-text"><img class="small-icon" src="/images/quota.png"> Cupo: <span class="quota" data-id="${activity.classId}">${activity.cupo}</span></p>
+                            <div class="text-center mt-3">
+                                <button class="btn btn-primary btn-inscribirse" data-id="${activity.classId}">Inscribirse</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.append(card);
+        });
+
+        // Asignar eventos a los botones de inscripción
+        $(".btn-inscribirse").on("click", function () {
+            const classId = $(this).data("id");
+            inscribirse(classId);
+        });
+    }
+
+    // Función para inscribirse en la clase
+    function inscribirse(classId) {
+        if (!validarReserva()) {
+            alert("No se puede realizar la reserva. Verifica que tienes la cuota al día, cupo disponible y apto cargado.");
+            return;
+        }
+
+        $.ajax({
+            url: "/Home/Inscribirse",
+            method: "POST",
+            data: { classId },
+            success: function (response) {
+                alert(response.message);
+
+                if (response.success) {
+                    const cupoElement = $(`.quota[data-id="${classId}"]`);
+                    const currentCupo = parseInt(cupoElement.text(), 10);
+
+                    if (!isNaN(currentCupo) && currentCupo > 0) {
+                        cupoElement.text(currentCupo - 1);
+                    }
+
+                    mostrarQR(classId);
+                }
+            },
+            error: function (xhr) {
+                const errorMessage = xhr.responseJSON?.message || "Error al inscribirse.";
+                alert(errorMessage);
+            },
+        });
+    }
+
+    // Mostrar QR
+    function mostrarQR(classId) {
+        const codigoQR = `<img src="https://api.qrserver.com/v1/create-qr-code/?data=AccesoClase_${classId}&size=200x200" alt="Código de acceso" title="Acceso Clase" />`;
+        $("#qrContainer").html(codigoQR);
+        $("#prueba").show();
+    }
+
+    // Ocultar QR
+    function ocultarQR() {
+        $("#prueba").fadeOut(() => {
+            $("#prueba").css("display", "none");
+        });
+    }
+
+    // Validar si el usuario puede realizar la reserva
+    function validarReserva() {
+        const cuotaAlDia = verificarCuota();
+        const aptoCargado = verificarApto();
+
+        return cuotaAlDia && aptoCargado;
+    }
+
+    // Verificar si el pago está al día
+    function verificarCuota() {
+        let pagoValido = false;
+
+        $.ajax({
+            url: "/Home/GetUserPayment",
+            method: "GET",
+            async: false, // Forzar ejecución síncrona
+            success: function (response) {
+                if (response.success) {
+                    pagoValido = true;
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function () {
+                alert("Hubo un error al verificar el pago.");
+            },
+        });
+
+        return pagoValido;
+    }
+
+    // Verificar si el apto está cargado
+    function verificarApto() {
+        let aptoValido = false;
+
+        $.ajax({
+            url: "/Home/GetUserApto",
+            method: "GET",
+            async: false, // Forzar ejecución síncrona
+            success: function (response) {
+                if (response.success) {
+                    aptoValido = true;
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function () {
+                alert("Hubo un error al verificar el apto cargado.");
+            },
+        });
+
+        return aptoValido;
+    }
+
+    // Eventos para mostrar/ocultar QR
+    $("#prueba button").on("click", ocultarQR);
+});
+
+    </script>
+}
