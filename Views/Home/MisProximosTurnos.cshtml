@@ -1,0 +1,104 @@
+@{
+    ViewData["Title"] = "Mis Próximos Turnos";
+}
+
+<div class="container my-4">
+    <h2 class="text-center mb-4 text-white">Mis Próximos Turnos</h2>
+    <div id="userClassesContainer" class="row">
+        <!-- Aquí se agregarán dinámicamente las tarjetas de las clases -->
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+       function cancelarReserva(classId) {
+    if (!confirm('¿Estás seguro de que deseas cancelar esta reserva?')) {
+        return;
+    }
+
+    $.ajax({
+        url: '/Home/CancelarReserva', // Endpoint para cancelar la reserva
+        method: 'POST',
+        data: { classId: classId },
+        success: function(response) {
+            if (response.success) {
+                alert("Reserva cancelada y cupo actualizado con éxito.");
+                location.reload(); 
+            } else {
+                alert(response.message || "Error al cancelar la reserva.");
+            }
+        },
+        error: function(xhr) {
+            const errorMessage = xhr.responseJSON?.message || "Error al cancelar la reserva.";
+            alert(errorMessage);
+        }
+    });
+}
+
+$(document).ready(function() {
+    // Llamada AJAX para obtener las clases del usuario
+    $.ajax({
+        url: '/Home/GetUserClasses', 
+        method: 'GET',
+        success: function(response) {
+            if (response.success) {
+                renderUserClasses(response.data);
+            } else {
+                alert(response.message || "Error al cargar los turnos.");
+            }
+        },
+        error: function(xhr) {
+            const errorMessage = xhr.responseJSON?.message || "Error al obtener los turnos.";
+            alert(errorMessage);
+        }
+    });
+
+    // Función para renderizar las clases en el contenedor
+    function renderUserClasses(classes) {
+        const container = $("#userClassesContainer");
+        container.empty(); // Limpiar el contenedor antes de agregar los datos
+
+        if (classes.length === 0) {
+                    container.append(`
+                        <div class="row justify-content-center">
+                            <div class="col-md-6">
+                                <div class="card shadow-sm border-0">
+                                    <div class="card-body text-center">
+                                        <p class="text-muted mb-0">
+                                            <i class="fas fa-info-circle"></i> No tienes historial de turnos.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `);                
+        return;
+        }
+
+        // Crear tarjetas para cada clase
+        classes.forEach(cls => {
+            const card = `
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-lg h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">${cls.title}</h5>
+                            <p class="card-text">Fecha: ${cls.date}</p>
+                            <p class="card-text">Hora: ${cls.time}</p>
+                            <p class="card-text">Profesor: ${cls.teacher}</p>
+                            <div class="text-center mt-3">
+                                <img src="${cls.qrCode}" alt="Código QR" title="Código de acceso" />
+                            </div>
+                            <!-- Botón para cancelar reserva -->
+                            <div class="d-flex justify-content-center mt-3">
+                            <button class="btn btn-danger mt-3" onclick="cancelarReserva(${cls.classId})">Cancelar Reserva</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.append(card);
+        });
+    }
+});
+    </script>
+}
