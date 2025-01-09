@@ -1,0 +1,86 @@
+@{
+    ViewData["Title"] = "Historial de Turnos";
+}
+
+<div class="container my-4">
+    <h2 class="text-center mb-4 text-white">Historial de Turnos</h2>
+    <div id="userClassesHistoryContainer">
+        <!-- Aquí se generará dinámicamente la tabla del historial -->
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Llamada AJAX para obtener el historial de clases del usuario
+            $.ajax({
+                url: '/Home/GetUserClassesHistory', // Endpoint en tu controlador para historial
+                method: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        renderUserClassesHistory(response.data);
+                    } else {
+                        alert(response.message || "Error al cargar el historial de turnos.");
+                    }
+                },
+                error: function(xhr) {
+                    const errorMessage = xhr.responseJSON?.message || "Error al obtener el historial de turnos.";
+                    alert(errorMessage);
+                }
+            });
+
+            // Función para renderizar el historial en formato de tabla
+            function renderUserClassesHistory(classes) {
+                const container = $("#userClassesHistoryContainer");
+                container.empty(); // Limpiar el contenedor antes de agregar los datos
+
+                if (classes.length === 0) {
+
+                    container.append(`
+                        <div class="row justify-content-center">
+                            <div class="col-md-6">
+                                <div class="card shadow-sm border-0">
+                                    <div class="card-body text-center">
+                                        <p class="text-muted mb-0">
+                                            <i class="fas fa-info-circle"></i> No tienes historial de turnos.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `);                    
+                return;
+                }
+
+                // Crear tabla
+                const table = `
+                    <div>
+                        <table class="table-custom">
+                            <thead >
+                                <tr>
+                                    <th>Título</th>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
+                                    <th>Profesor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${classes.map(cls => `
+                                    <tr>
+                                        <td>${cls.title}</td>
+                                        <td>${cls.date}</td>
+                                        <td>${cls.time}</td>
+                                        <td>${cls.teacher}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                container.append(table);
+            }
+        });
+    </script>
+}
+
+
