@@ -1,0 +1,93 @@
+@{
+    Layout = null; // No utiliza el layout general
+    ViewData["Title"] = "Bienvenido a Sportify Solutions";
+}
+
+<div id="welcome-page">
+    <div class="d-flex justify-content-center gap-3" id="button-container">
+        <a class="btn-register" asp-area="Identity" asp-page="/Account/Register">Registrarse</a>
+        <a class="btn-login" asp-area="Identity" asp-page="/Account/Login" title="Login">Iniciar Sesión</a>
+    </div>
+</div>
+
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+    }
+
+    body {
+        background: url('@Url.Content("~/images/fnd.png")') no-repeat center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+    }
+
+    #welcome-page {
+        height: 100vh; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        position: relative; 
+    }
+
+
+    #button-container {
+        position: fixed; 
+        right: 400px; 
+        text-align: right; 
+        gap: 30px; 
+        margin-top: 500px;
+        display: flex;
+    }
+
+    .btn-register, .btn-login {
+    display: inline-flex; /* Cambiar el display de los enlaces para que se alineen correctamente */
+    align-items: center; /* Asegura que el contenido de los botones esté alineado correctamente */
+}
+
+    /* Estilos para los botones */
+    .btn-register {
+        color: #fff !important;
+        background-color: #143447 !important;
+        border: none !important;
+        padding: 24px 80px;
+        font-size: 30px; 
+        font-weight: bold;
+        border-radius: 5px;
+        transition: all 0.3s ease-in-out;
+        text-decoration: none !important;
+    }
+
+    .btn-register:hover {
+        background-color: #185265 !important;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+        text-decoration: none !important;
+    }
+
+    /* Estilo para el botón de "Iniciar Sesión" */
+    .btn-login {
+        color: #fff !important;
+        background-color: #99b5c6 !important;
+        border: none !important;
+        padding: 24px 80px; 
+        font-size: 30px;
+        font-weight: bold;
+        border-radius: 5px;
+        transition: all 0.3s ease-in-out;
+        text-decoration: none !important;
+    }
+
+    .btn-login:hover {
+        background-color: #7d9db4 !important;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+        text-decoration: none !important;
+    }
+</style>
+<script>
+    setTimeout(() => {
+        window.location.href = '@Url.Action("Index", "Home")';
+    }, 5000); // 5 segundos
+</script>
