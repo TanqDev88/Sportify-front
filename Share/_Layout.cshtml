@@ -1,0 +1,204 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using System.Security.Claims
+
+@{
+    var isAdmin = User.HasClaim("Profile", "Administrador");
+    var isUsuarioFinal = User.HasClaim("Profile", "Usuario Final");
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Sportify Solutions</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="~/images/sportify-.png" />
+</head>
+<body class=" flex-column min-vh-100 background-container">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light shadow-sm py-3" style="background-color: #adb5bd;">
+            <div class="container-fluid">
+                <a href="@Url.Action("Index", "Home")">
+                    <img src="~/images/sportify-.png" alt="Sportify Solutions" style="max-height: 50px;" />
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        
+                        @* Opciones para "Usuario Final" *@
+                        @if (isUsuarioFinal)
+                        {
+                        <li class="nav-item dropdown ms-2">
+                            <div class="btn-group dropdown">
+                                <a class="btn btn-link text-black d-flex align-items-center nav-link-custom" href="@Url.Action("Details", "Users", new {id = User.FindFirstValue(ClaimTypes.NameIdentifier)})">
+                                    <img src="~/Images/fitness.png" alt="Index" style="max-height: 30px; margin-right: 8px;" />Usuarios
+                                </a>
+                                <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="visually-hidden">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu text-white" aria-labelledby="usuarioDropdown">
+                                    <li><a class="dropdown-item" href="@Url.Action("MisProximosTurnos", "Home")" style="font-weight: 500;">Gestión de Turnos</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("HistorialTurnos", "Home")" style="font-weight: 500;">Historial de Turnos</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "Payment")" style="font-weight: 500;">Gestionar Suscripción</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Edit", "Users", new { id = User.FindFirstValue(ClaimTypes.NameIdentifier) })" style="font-weight: 500;">Cargar Apto Médico</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "Activities")" style="font-weight: 500;">Ver Actividades</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        }
+
+                        @* Opciones para "Administrador" *@
+                        @if (isAdmin)
+                        {
+                        <li class="nav-item dropdown ms-2">
+                            <div class="btn-group dropdown">
+                                <a class="btn btn-link text-black d-flex align-items-center nav-link-custom" href="@Url.Action("Index", "Users")">
+                                    <img src="~/Images/fitness.png" alt="Index" style="max-height: 30px; margin-right: 8px;" />Usuarios
+                                </a>
+                                <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="visually-hidden">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu text-white" aria-labelledby="adminDropdown">
+                                    <li><a class="dropdown-item text-black" href="@Url.Action("Index", "Users")" style="font-weight: 500;">Gestionar Usuarios</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown ms-2">
+                            <div class="btn-group dropdown">
+                                <a class="btn btn-link text-black d-flex align-items-center nav-link-custom" href="@Url.Action("Index", "Teachers")">
+                                    <img src="~/Images/teacher.png" alt="Index" style="max-height: 30px; margin-right: 8px;" />Profesores
+                                </a>
+                                <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="visually-hidden">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu text-white" aria-labelledby="adminDropdown">
+                                    <li><a class="dropdown-item text-black" href="@Url.Action("Create", "Teachers")" style="font-weight: 600;">Cargar nuevo Profesor</a></li>
+                                    <li><a class="dropdown-item text-black" href="@Url.Action("Index", "Teachers")" style="font-weight: 500;">Gestionar Profesores</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown ms-2">
+                            <div class="btn-group dropdown">
+                                <a class="btn btn-link text-black d-flex align-items-center nav-link-custom" href="@Url.Action("Index", "Classes")">
+                                    <img src="~/Images/teach.png" alt="Index" style="max-height: 30px; margin-right: 8px;" />Clases
+                                </a>
+                                <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="visually-hidden">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu text-white" aria-labelledby="adminDropdown">
+                                    <li><a class="dropdown-item text-black" href="@Url.Action("Create", "Classes")" style="font-weight: 600;">Cargar nueva Clase</a></li>
+                                    <li><a class="dropdown-item text-black" href="@Url.Action("Index", "Classes")" style="font-weight: 500;">Gestionar Clases</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown ms-2">
+                            <div class="btn-group dropdown">
+                                <a class="btn btn-link text-black d-flex align-items-center nav-link-custom" href="@Url.Action("Index", "Report")">
+                                    <img src="~/Images/24.png" alt="Index" style="max-height: 30px; margin-right: 8px;" />Reportes
+                                </a>
+                                <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="visually-hidden">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu text-white" aria-labelledby="adminDropdown">
+                                    <li><a class="dropdown-item text-black" href="@Url.Action("Index", "Report")" style="font-weight: 500;">Gestionar Reportes</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown ms-2">
+                            <div class="btn-group dropdown">
+                                <a class="btn btn-link text-black d-flex align-items-center nav-link-custom" href="@Url.Action("Index", "Activities")">
+                                    <img src="~/Images/fitness.png" alt="Index" style="max-height: 30px; margin-right: 8px;" />Disciplinas
+                                </a>
+                                <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="visually-hidden">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu text-white" aria-labelledby="adminDropdown">
+                                    <li><a class="dropdown-item text-black" href="@Url.Action("Create", "Activities")" style="font-weight: 500;">Cargar nueva Actividad</a></li>
+                                    <li><a class="dropdown-item text-black" href="@Url.Action("Index", "Activities")" style="font-weight: 500;">Gestionar Actividades</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown ms-2">
+                            <div class="btn-group dropdown">
+                                <a class="btn btn-link text-black d-flex align-items-center nav-link-custom" href="@Url.Action("Index", "Payment")">
+                                    <img src="~/Images/quota.png" alt="Index" style="max-height: 30px; margin-right: 8px;" />Subscripciones
+                                </a>
+                                <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="visually-hidden">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu text-white" aria-labelledby="adminDropdown">
+                                    <li><a class="dropdown-item text-black" href="@Url.Action("Create", "Payment")" style="font-weight: 500;">Cargar nueva Subscripcion</a></li>
+                                    <li><a class="dropdown-item text-black" href="@Url.Action("Index", "Payment")" style="font-weight: 500;">Gestionar Subscripciones</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        }
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="container flex-grow-1">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer footer-bg text-white mt-4">
+        <div class="container py-4">
+            <div class="row align-items-center">
+                <div class="col-md-3 text-center text-md-left mb-3 mb-md-0">
+                    <img src="~/images/sportify-.png" alt="Sportify Solutions" class="footer-logo">
+                </div>
+                <div class="col-md-6 text-center mb-3 mb-md-0 custom-footer-links">
+                    <a href="@Url.Action("Index", "Home")" class="footer-link">Home</a>
+                    <span class="separator">•</span>
+                    <a href="@Url.Action("SobreNosotros", "Home")" class="footer-link">Sobre nosotros</a>
+                    <span class="separator">•</span>
+                    <a href="@Url.Action("Contacto", "Home")" class="footer-link">Contacto</a>
+                </div>
+                <div class="col-md-3 text-center text-md-right">
+                <span class="social-icon-wrapper">
+                    <a href="https://www.facebook.com/profile.php?id=61569202845286" target="_blank">
+                        <img src="~/images/facebook.png" alt="Facebook" class="social-icon">
+                    </a>
+                </span>
+                <span class="social-icon-wrapper">
+                    <a href="https://www.instagram.com/sportifys2024/" target="_blank">
+                        <img src="~/images/instagram.png" alt="Instagram" class="social-icon">
+                    </a>
+                </span>
+                <span class="social-icon-wrapper">
+                    <a href="https://x.com/Sportify_s" target="_blank">
+                        <img src="~/images/twitter.png" alt="Twitter" class="social-icon">
+                    </a>
+                </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <a href="@Url.Action("TerminosCondiciones", "Home")" class="footer-link">Términos y condiciones</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
