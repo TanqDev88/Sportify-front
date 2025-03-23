@@ -5,18 +5,18 @@
 ![Image text](https://github.com/jorgedan88/Testing-Repo/blob/main/diseno_gym_2-1.jpg)
 
 
-En este repositorio se encuentra el proyecto correspondiente al sistema integral de gestion de Gimnasios Sportify.
+This repository contains the project for the comprehensive Sportify Gym management system.
 
-## Contenido
-1. [Informacion general](#general-info)
-2. [Tecnologias](#technologies)
-3. [Instalacion](#installation)
+## Contents
+1. [General Information](#general-info)
+2. [Technologies](#technologies)
+3. [Installation](#installation)
 
 
 <a name="general-info"></a>
-## Informacion General 
+## General Information 
 ***
-La aplicación perteneciente al sistema de gestion de turnos "Sportify" tiene como objetivo la gestión de turnos y nomina de profesores/alumnos para uso de gimnasios (desde sus datos personales hasta la asignación de clases, profesores y salones para las actividades). El proyecto se encuentra aun en proceso de desarrollo pero ya cuenta con ABM'S donde se puede crear, editar, observar detalle y eliminar registros, una funcionalidad de autenticacion y registro de usuarios, llegando hasta el desarrollo de una funcionalidad de gestion de turnos para el uso de las salas de gimnasios. 
+The application, part of the "Sportify" appointment management system, aims to manage appointments and rosters for teachers and students using gyms (from their personal information to class, teacher, and activity room assignments). The project is still under development but already includes ABM (Analytics) for creating, editing, viewing details, and deleting records, as well as user authentication and registration functionality, and is even developing appointment management functionality for gym rooms. 
 ### Menu principal
 
 ## Estado del Proyecto 🚧 
